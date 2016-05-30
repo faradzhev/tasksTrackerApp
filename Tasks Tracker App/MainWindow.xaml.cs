@@ -76,6 +76,7 @@ namespace Tasks_Tracker_App
 
         private void resolvedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            ifIsResolved(ticketField.Text, resolvedCheckBox.IsChecked.Value);
             ifIsBilled();
         }
         
@@ -141,10 +142,8 @@ namespace Tasks_Tracker_App
                     {
                         var selection = (Task)tasksTable.SelectedItem;
 
-                        if (selection.Resolved == false)
-                            selection.Resolved = true;
-                        else
-                            selection.Resolved = false;
+                        selection.Resolved = selection.Resolved ? false : true;
+                        ifIsResolved(selection.Title, selection.Resolved);
 
                         tasksTable.Items.Insert(tasksTable.SelectedIndex, selection);
 
@@ -396,6 +395,13 @@ namespace Tasks_Tracker_App
             {
                 
             }
+        }
+
+        //checks is it's resolved or not and adds info to Logs
+        public void ifIsResolved(string title, bool resolved)
+        {
+            if (!String.IsNullOrWhiteSpace(title))
+                writeToLog("\"" + title + "\" was marked " + (resolved ? "resolved" : "unresolved"));
         }
 
         //adds ticket to Billed field
