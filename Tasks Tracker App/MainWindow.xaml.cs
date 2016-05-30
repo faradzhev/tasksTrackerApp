@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,11 +39,12 @@ namespace Tasks_Tracker_App
         public MainWindow()
         {
             InitializeComponent();
-
             Height = MinHeight;
 
             invertStartStopBtn(false);
             tasksTableButtons.IsEnabled = false;
+
+            logsText.Text = "Date: " + DateTime.Now.ToShortDateString() + "\r\n\r\n";
         }
         
         private void resolvedCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -310,7 +312,7 @@ namespace Tasks_Tracker_App
         //Writes line to the log field
         public void writeToLog(string textToLog)
         {
-            logsText.Document.Blocks.Add(new Paragraph(new Run(" >>>>> " + textToLog + " <<<<< ")));
+            logsText.Text += DateTime.Now.ToShortTimeString() + ": " + textToLog + "\t\r\n";
         }
 
         //checks if the task ticket should be added to the list of Billed/Not Billed
@@ -380,6 +382,12 @@ namespace Tasks_Tracker_App
             }
         }
 
-        
+        public void saveToTxtFile(string text)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.ShowDialog();
+            File.WriteAllText(saveFileDialog.FileName, logsText.Text);
+
+        }
     }
 }
