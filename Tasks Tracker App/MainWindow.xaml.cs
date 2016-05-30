@@ -196,8 +196,9 @@ namespace Tasks_Tracker_App
         {
             notEmptyTaskTitle();
 
-
             ifIsBilled();
+
+            writeToLog("\"" + taskField.Text + "\" STARTED");
 
             invertStartStopBtn();
         }
@@ -207,6 +208,7 @@ namespace Tasks_Tracker_App
         {
             notEmptyTaskTitle();
 
+            writeToLog("\"" + taskField.Text + "\" STOPPED \t\r\n");
 
             ifIsBilled();
 
@@ -221,6 +223,8 @@ namespace Tasks_Tracker_App
             ifIsBilled();
 
             addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value);
+
+            writeToLog("\"" + taskField.Text + "\" was added to the list");
         }
 
         //Adds new task row to the table
