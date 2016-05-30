@@ -73,7 +73,7 @@
             <TextBox x:Name="notBilledTextBox" HorizontalAlignment="Left" Height="23" Margin="316,172,0,0" TextWrapping="Wrap" Text="Not Billed: " VerticalAlignment="Top" Width="316"/>
             <RichTextBox x:Name="logsText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="172" Width="632" Background="White" Block.LineHeight="6" FontSize="14"/>
         </Grid>
-        <Button x:Name="saveLogsToFileBtn" Content="Save To File" HorizontalAlignment="Left" Margin="92,331,0,0" VerticalAlignment="Top" Width="73" Height="20" Background="{x:Null}" FontSize="12"/>
+        <Button x:Name="saveLogsToFileBtn" Content="Save To File" HorizontalAlignment="Left" Margin="92,331,0,0" VerticalAlignment="Top" Width="73" Height="20" Background="{x:Null}" FontSize="12" Click="saveLogsToFileBtn_Click"/>
         <Button x:Name="editLogsBtn" Content="Edit" HorizontalAlignment="Left" Margin="60,331,0,0" VerticalAlignment="Top" Width="32" Height="20" Background="{x:Null}" FontSize="12" Click="editLogsBtn_Click"/>
     </Grid>
 </Window>

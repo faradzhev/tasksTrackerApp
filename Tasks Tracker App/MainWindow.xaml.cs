@@ -160,6 +160,11 @@ namespace Tasks_Tracker_App
             }
         }
 
+        private void saveLogsToFileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //Save logs to txt file?
+        }
+
         //Disables and enables Start or Stop Task buttons
         public void invertStartStopBtn(bool taskStarted = true)
         {
