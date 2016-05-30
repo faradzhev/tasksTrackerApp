@@ -43,10 +43,35 @@ namespace Tasks_Tracker_App
 
             invertStartStopBtn(false);
             tasksTableButtons.IsEnabled = false;
-
-            logsText.Text = "Date: " + DateTime.Now.ToShortDateString() + "\r\n\r\n";
         }
-        
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            string fileName = DateTime.Now.ToLongDateString() + " Logs.txt";
+
+            if (File.Exists(fileName))
+            {
+                //Open file with Logs and write to LogsField
+                using (StreamReader sr = new StreamReader(fileName))
+                {
+                    String line;
+
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        logsText.Text += line + "\r\n";
+                    }
+                }
+                logsText.Text += "\r\n >>> OPENED AGAIN <<< \r\n\r\n";
+            }
+            else //Add current date to Logs
+                logsText.Text = "Date: " + DateTime.Now.ToShortDateString() + "\r\n\r\n";
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            saveToTxtFile(logsText.Text, false);
+        }
+
         private void resolvedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             ifIsBilled();
@@ -386,13 +411,19 @@ namespace Tasks_Tracker_App
             }
         }
 
-        public void saveToTxtFile(string text)
+        //saves string to txt file (FOR LOGS)
+        public void saveToTxtFile(string text, bool showDialog = true)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
-                FileName = DateTime.Now.ToShortDateString() + " report",
-                Filter = "Text File (*.txt)|*.txt"
+                FileName = DateTime.Now.ToLongDateString() + " Logs.txt",
+                Filter = "Text File (*.txt)|*.txt",
+                InitialDirectory = @"C:\Users\%USERNAME%\Desktop\",
             };
+
+            if (showDialog)
+                saveFileDialog.ShowDialog();
+
             File.WriteAllText(saveFileDialog.FileName, logsText.Text);
 
         }

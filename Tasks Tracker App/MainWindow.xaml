@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tasks_Tracker_App"
         mc:Ignorable="d"
-        Title="Tasks Tracker App 2.0" Height="591" Width="666" WindowStartupLocation="CenterScreen" Topmost="True" FontFamily="Roboto Light" FontSize="16" MinWidth="666" MinHeight="355" MaxHeight="591" MaxWidth="666">
+        Title="Tasks Tracker App 2.0" Height="591" Width="666" WindowStartupLocation="CenterScreen" Topmost="True" FontFamily="Roboto Light" FontSize="16" MinWidth="666" MinHeight="355" MaxHeight="591" MaxWidth="666"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
             <GradientStop Color="#FFEAEAEA"/>
@@ -57,7 +59,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}"/>
+        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" IsEnabled="False"/>
         <Button x:Name="showLogsBtn" Content="Show Logs" HorizontalAlignment="Left" Margin="11,285,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showLogsBtn_Click"/>
         <Button x:Name="stopTaskBtn" Content="Stop Task" HorizontalAlignment="Left" Margin="97,195,0,0" VerticalAlignment="Top" Width="86" Click="stopTaskBtn_Click">
             <Button.Background>
