@@ -27,6 +27,7 @@ namespace Tasks_Tracker_App
         public string Ticket { get; set; }
         public string Type { get; set; }
         public bool Resolved { get; set; }
+        public string TimeWorked { get; set; }
     }
 
         /// <summary>
@@ -36,6 +37,10 @@ namespace Tasks_Tracker_App
     {
         public List<Task> Tasks { get; set; }
 
+        //things for timer work
+        DateTime date;
+        Timer timer = new Timer();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +48,7 @@ namespace Tasks_Tracker_App
             Uri iconUri = new Uri("pack://application:,,,/icon.ico", UriKind.RelativeOrAbsolute);
             this.Icon = BitmapFrame.Create(iconUri);
 
+            timer.Stop();
             invertStartStopBtn(false);
             tasksTableButtons.IsEnabled = false;
         }
@@ -76,7 +82,7 @@ namespace Tasks_Tracker_App
 
         private void resolvedCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            ifIsResolved(ticketField.Text, resolvedCheckBox.IsChecked.Value);
+            ifIsResolved(taskField.Text, resolvedCheckBox.IsChecked.Value);
             ifIsBilled();
         }
         
@@ -88,7 +94,7 @@ namespace Tasks_Tracker_App
         private void stopTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             stopTask();
-            saveTaskToList();
+            addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value, stopWatchLabel.Content.ToString());
         }
         
         private void saveTaskButton_Click(object sender, RoutedEventArgs e)
@@ -165,20 +171,25 @@ namespace Tasks_Tracker_App
             deleteTaskInList();
         }
         
-        private void showLogsBtn_Click(object sender, RoutedEventArgs e)
+        private void showOptionsBtn_Click(object sender, RoutedEventArgs e)
         {
             if (Height == MinHeight)
             {
                 Height = MaxHeight;
-                showLogsBtn.Content = "Hide Logs";
+                showOptionsBtn.Content = "Hide Options";
             }
             else
             {
                 Height = MinHeight;
-                showLogsBtn.Content = "Show Logs";
+                showOptionsBtn.Content = "Show Options";
             }
         }
-        
+
+        private void alwaysOnTopRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Topmost = alwaysOnTopRadioButton.IsChecked.Value;
+        }
+
         private void editLogsBtn_Click(object sender, RoutedEventArgs e)
         {
             if (logsGrid.IsEnabled)
@@ -227,6 +238,11 @@ namespace Tasks_Tracker_App
         {
             notEmptyTaskTitle();
 
+            date = DateTime.Now;
+            timer.Interval = 10;
+            timer.Tick += new EventHandler(tickTimer);
+            timer.Start();
+
             ifIsBilled();
 
             writeToLog("\"" + taskField.Text + "\" STARTED");
@@ -234,12 +250,24 @@ namespace Tasks_Tracker_App
             invertStartStopBtn();
         }
 
+        //adds miliseconds to the stopwath label
+        private void tickTimer(object sender, EventArgs e)
+        {
+            long tick = DateTime.Now.Ticks - date.Ticks;
+            DateTime stopWatch = new DateTime();
+            stopWatch = stopWatch.AddTicks(tick);
+            stopWatchLabel.Content = String.Format("{0:HH:mm:ss}", stopWatch);
+        }
+
         //method to stop the task
         public void stopTask()
         {
             notEmptyTaskTitle();
 
-            writeToLog("\"" + taskField.Text + "\" STOPPED \t\r\n");
+            timer.Stop();
+
+            writeToLog("\"" + taskField.Text + "\" STOPPED (time worked: " 
+                + stopWatchLabel.Content.ToString() + ")\t\r\n");
 
             ifIsBilled();
 
@@ -259,9 +287,9 @@ namespace Tasks_Tracker_App
         }
 
         //Adds new task row to the table
-        public void addNewTaskToList(string title = "New Task", string ticket = null, string type = "Undefined", bool resolved = false)
+        public void addNewTaskToList(string title = "New Task", string ticket = null, string type = "Undefined", bool resolved = false, string timeWorked = "-")
         {
-            tasksTable.Items.Add(new Task { Title = title, Ticket = ticket, Type = type, Resolved = resolved });
+            tasksTable.Items.Add(new Task { Title = title, Ticket = ticket, Type = type, Resolved = resolved, TimeWorked = timeWorked });
         }
 
         //Replaces fields' data with selected table's task
@@ -331,12 +359,9 @@ namespace Tasks_Tracker_App
         {
             try
             {
-                if (tasksTable.SelectedItem != null)
-                {
-                    if (tasksTable.SelectedItem is Task)
-                    {
-                        tasksTable.Items.RemoveAt(tasksTable.SelectedIndex);
-                    }
+                if (tasksTable.SelectedItem != null && tasksTable.SelectedItem is Task)
+                {   
+                    tasksTable.Items.RemoveAt(tasksTable.SelectedIndex);
                 }
             }
             catch (Exception)
