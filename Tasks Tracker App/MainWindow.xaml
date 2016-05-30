@@ -40,7 +40,7 @@
                 <DataGridCheckBoxColumn x:Name="Resolved" Width="80" Header="Resolved" IsReadOnly="True" Binding="{Binding Resolved}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="saveTaskButton" Content="Save Task" HorizontalAlignment="Left" Margin="11,225,0,0" VerticalAlignment="Top" Width="173" Click="saveTaskButton_Click" Background="{x:Null}"/>
+        <Button x:Name="saveTaskButton" Content="Save Task To Table" HorizontalAlignment="Left" Margin="11,225,0,0" VerticalAlignment="Top" Width="173" Click="saveTaskButton_Click" Background="{x:Null}"/>
         <Label x:Name="tasksListLabel" Content="Tasks List" HorizontalAlignment="Left" Margin="188,14,0,0" VerticalAlignment="Top"/>
         <Grid x:Name="tasksTableButtons" Margin="310,25,0,263" ToolTip="">
             <Button x:Name="startSelectedTaskButton" Content="Start Task" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" FontSize="12" Margin="21,0,0,0" Background="{x:Null}" ToolTip="Start selected task" Click="startSelectedTaskButton_Click"/>

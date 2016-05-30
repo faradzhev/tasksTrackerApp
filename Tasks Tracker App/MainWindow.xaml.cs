@@ -164,7 +164,7 @@ namespace Tasks_Tracker_App
 
         private void saveLogsToFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            //Save logs to txt file?
+            saveToTxtFile(logsText.Text);
         }
 
         //Disables and enables Start or Stop Task buttons
@@ -388,10 +388,15 @@ namespace Tasks_Tracker_App
 
         public void saveToTxtFile(string text)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.ShowDialog();
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                FileName = DateTime.Now.ToShortDateString() + " report",
+                Filter = "Text File (*.txt)|*.txt"
+            };
             File.WriteAllText(saveFileDialog.FileName, logsText.Text);
 
         }
+
+
     }
 }
