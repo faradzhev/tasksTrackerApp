@@ -9,7 +9,7 @@ using System.Windows;
 namespace Tasks_Tracker_App
 {
     /// <summary>
-    /// Логика взаимодействия для App.xaml
+    /// App.xaml
     /// </summary>
     public partial class App : Application
     {

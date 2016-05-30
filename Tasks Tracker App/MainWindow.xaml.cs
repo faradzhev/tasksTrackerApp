@@ -40,6 +40,8 @@ namespace Tasks_Tracker_App
         {
             InitializeComponent();
             Height = MinHeight;
+            Uri iconUri = new Uri("pack://application:,,,/icon.ico", UriKind.RelativeOrAbsolute);
+            this.Icon = BitmapFrame.Create(iconUri);
 
             invertStartStopBtn(false);
             tasksTableButtons.IsEnabled = false;
@@ -92,7 +94,12 @@ namespace Tasks_Tracker_App
         {
             saveTaskToList();
         }
-        
+
+        private void showReportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            openReportWindow();
+        }
+
         private void tasksTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tasksTable.SelectedIndex > -1)
@@ -428,6 +435,18 @@ namespace Tasks_Tracker_App
 
         }
 
+        //opens window with the report info
+        public void openReportWindow()
+        {
+            ReportScreen reportScreen = new ReportScreen(logsText.Text 
+                + "\r\n_______________________________\r\n" 
+                + billedTextBox.Text 
+                + " \r\n" 
+                + notBilledTextBox.Text);
+            reportScreen.Show();
+            reportScreen.Topmost = true;
+        }
 
+        
     }
 }

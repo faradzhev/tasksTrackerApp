@@ -59,7 +59,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" IsEnabled="False"/>
+        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showReportBtn_Click"/>
         <Button x:Name="showLogsBtn" Content="Show Logs" HorizontalAlignment="Left" Margin="11,285,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showLogsBtn_Click"/>
         <Button x:Name="stopTaskBtn" Content="Stop Task" HorizontalAlignment="Left" Margin="97,195,0,0" VerticalAlignment="Top" Width="86" Click="stopTaskBtn_Click">
             <Button.Background>
