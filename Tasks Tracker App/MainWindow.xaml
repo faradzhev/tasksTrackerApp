@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tasks_Tracker_App"
         mc:Ignorable="d"
-        Title="Tasks Tracker App 2.0" Height="591" Width="666" WindowStartupLocation="CenterScreen" Topmost="False" FontFamily="Roboto Light" FontSize="16" MinWidth="666" MinHeight="355" MaxHeight="591" MaxWidth="666"
+        Title="Tasks Tracker App 2.0" Height="591" Width="743" WindowStartupLocation="CenterScreen" Topmost="False" FontFamily="Roboto Light" FontSize="16" MinWidth="743" MinHeight="355" MaxHeight="591" MaxWidth="743"
         Loaded="Window_Loaded"
         Closing="Window_Closing">
     <Window.Background>
@@ -34,7 +34,7 @@
             <ComboBoxItem Content="Backoffice Work" HorizontalAlignment="Left" Width="171"/>
             <ComboBoxItem Content="Undefined" HorizontalAlignment="Left" Width="171"/>
         </ComboBox>
-        <DataGrid x:Name="tasksTable" HorizontalAlignment="Left" Margin="188,45,0,0" VerticalAlignment="Top" Height="265" Width="455" SelectionChanged="tasksTable_SelectionChanged" CanUserAddRows="True" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
+        <DataGrid x:Name="tasksTable" HorizontalAlignment="Left" Margin="188,45,0,0" VerticalAlignment="Top" Height="265" Width="529" SelectionChanged="tasksTable_SelectionChanged" CanUserAddRows="True" SelectedItem="{Binding SelectedTask, Mode=TwoWay}">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="Task" Width="170" Header="Task" IsReadOnly="True" Binding="{Binding Title}"/>
                 <DataGridTextColumn x:Name="Ticket" Width="70" Header="Ticket #" IsReadOnly="True" Binding="{Binding Ticket}"/>
@@ -45,7 +45,7 @@
         </DataGrid>
         <Button x:Name="saveTaskButton" Content="Save Task To Table" HorizontalAlignment="Left" Margin="11,225,0,0" VerticalAlignment="Top" Width="173" Click="saveTaskButton_Click" Background="{x:Null}"/>
         <Label x:Name="tasksListLabel" Content="Tasks List" HorizontalAlignment="Left" Margin="188,14,0,0" VerticalAlignment="Top"/>
-        <Grid x:Name="tasksTableButtons" Margin="310,25,0,263" ToolTip="">
+        <Grid x:Name="tasksTableButtons" Margin="384,25,-74,263" ToolTip="">
             <Button x:Name="startSelectedTaskButton" Content="Start Task" HorizontalAlignment="Left" VerticalAlignment="Top" Width="65" FontSize="12" Margin="21,0,0,0" Background="{x:Null}" ToolTip="Start selected task" Click="startSelectedTaskButton_Click"/>
             <Button x:Name="uploadButton" Content="Upload" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" FontSize="12" Click="uploadButton_Click" Margin="86,0,0,0" Background="{x:Null}" ToolTip="Upload selected task to fields"/>
             <Button x:Name="updateButton" Content="Update" HorizontalAlignment="Left" Margin="136,0,0,0" VerticalAlignment="Top" Width="50" FontSize="12" Click="updateButton_Click" Background="{x:Null}" ToolTip="Replace selected task with info from fields"/>
@@ -60,7 +60,7 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="10,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showReportBtn_Click"/>
+        <Button x:Name="showReportBtn" Content="Show Report" HorizontalAlignment="Left" Margin="11,255,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showReportBtn_Click"/>
         <Button x:Name="showOptionsBtn" Content="Show Options" HorizontalAlignment="Left" Margin="11,285,0,0" VerticalAlignment="Top" Width="173" Background="{x:Null}" Click="showOptionsBtn_Click"/>
         <Button x:Name="stopTaskBtn" Content="Stop Task" HorizontalAlignment="Left" Margin="97,195,0,0" VerticalAlignment="Top" Width="86" Click="stopTaskBtn_Click">
             <Button.Background>
@@ -70,16 +70,17 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Label x:Name="logsLabel" Content="Logs" HorizontalAlignment="Left" Margin="193,321,0,0" VerticalAlignment="Top" Height="36"/>
-        <Grid x:Name="logsGrid" Margin="193,348,-182,3" IsEnabled="False">
+        <Label x:Name="logsLabel" Content="Logs" HorizontalAlignment="Left" Margin="267,321,0,0" VerticalAlignment="Top" Height="36"/>
+        <Grid x:Name="logsGrid" Margin="267,348,-256,3" IsEnabled="False">
             <TextBox x:Name="billedTextBox" HorizontalAlignment="Left" Height="23" Margin="0,172,0,0" TextWrapping="Wrap" Text="Billed: " VerticalAlignment="Top" Width="225"/>
             <TextBox x:Name="notBilledTextBox" HorizontalAlignment="Left" Height="23" Margin="225,172,0,0" TextWrapping="Wrap" Text="Not Billed: " VerticalAlignment="Top" Width="225"/>
             <TextBox x:Name="logsText" HorizontalAlignment="Left" VerticalAlignment="Top" Height="172" Width="450" Background="White" Block.LineHeight="6" FontSize="14"/>
         </Grid>
-        <Button x:Name="saveLogsToFileBtn" Content="Save To File" HorizontalAlignment="Left" Margin="274,328,0,0" VerticalAlignment="Top" Width="73" Height="20" Background="{x:Null}" FontSize="12" Click="saveLogsToFileBtn_Click"/>
-        <Button x:Name="editLogsBtn" Content="Edit" HorizontalAlignment="Left" Margin="242,328,0,0" VerticalAlignment="Top" Width="32" Height="20" Background="{x:Null}" FontSize="12" Click="editLogsBtn_Click"/>
+        <Button x:Name="saveLogsToFileBtn" Content="Save To File" HorizontalAlignment="Left" Margin="348,328,0,0" VerticalAlignment="Top" Width="73" Height="20" Background="{x:Null}" FontSize="12" Click="saveLogsToFileBtn_Click"/>
+        <Button x:Name="editLogsBtn" Content="Edit" HorizontalAlignment="Left" Margin="316,328,0,0" VerticalAlignment="Top" Width="32" Height="20" Background="{x:Null}" FontSize="12" Click="editLogsBtn_Click"/>
         <Label x:Name="stopWatchLabel" Content="00:00:00" HorizontalAlignment="Left" Margin="110,14,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontStyle="Italic"/>
-        <RadioButton x:Name="alwaysOnTopRadioButton" Content="App always on top" HorizontalAlignment="Left" Margin="11,348,0,0" VerticalAlignment="Top" Checked="alwaysOnTopRadioButton_Checked"/>
+        <CheckBox x:Name="alwaysOnTopCheckBox" Content="App to be always on top" HorizontalAlignment="Left" Margin="11,348,0,0" VerticalAlignment="Top" Checked="alwaysOnTopCheckBox_Checked" Unchecked="alwaysOnTopCheckBox_Checked"/>
         <Label x:Name="optionsLabel" Content="Options" HorizontalAlignment="Left" Margin="11,321,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="proFunctionCheckBox" Content="No auto-duplicates in the table" HorizontalAlignment="Left" Margin="11,373,0,0" VerticalAlignment="Top" Checked="proFunctionCheckBox_Checked" IsChecked="True"/>
     </Grid>
 </Window>

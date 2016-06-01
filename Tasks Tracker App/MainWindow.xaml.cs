@@ -94,7 +94,7 @@ namespace Tasks_Tracker_App
         private void stopTaskBtn_Click(object sender, RoutedEventArgs e)
         {
             stopTask();
-            addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value, stopWatchLabel.Content.ToString());
+            //addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value, stopWatchLabel.Content.ToString());
         }
         
         private void saveTaskButton_Click(object sender, RoutedEventArgs e)
@@ -135,7 +135,7 @@ namespace Tasks_Tracker_App
         
         private void updateButton_Click(object sender, RoutedEventArgs e)
         {
-            updateTaskInList();
+            updateTaskInList(tasksTable.SelectedIndex);
         }
         
         private void markResolvedButton_Click(object sender, RoutedEventArgs e)
@@ -185,9 +185,14 @@ namespace Tasks_Tracker_App
             }
         }
 
-        private void alwaysOnTopRadioButton_Checked(object sender, RoutedEventArgs e)
+        private void alwaysOnTopCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            this.Topmost = alwaysOnTopRadioButton.IsChecked.Value;
+            this.Topmost = alwaysOnTopCheckBox.IsChecked.Value;
+        }
+
+        private void proFunctionCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void editLogsBtn_Click(object sender, RoutedEventArgs e)
@@ -269,19 +274,21 @@ namespace Tasks_Tracker_App
             writeToLog("\"" + taskField.Text + "\" STOPPED (time worked: " 
                 + stopWatchLabel.Content.ToString() + ")\t\r\n");
 
+            updateTaskInList(ifSavedInTheTable(taskField.Text), true);
+
             ifIsBilled();
 
             invertStartStopBtn();
         }
 
         //Saves current fields' data to table
-        public void saveTaskToList()
+        public void saveTaskToList(string timeToSave = "-")
         {
             notEmptyTaskTitle();
 
             ifIsBilled();
 
-            addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value);
+            addNewTaskToList(taskField.Text, ticketField.Text, typeBox.Text, resolvedCheckBox.IsChecked.Value, timeToSave);
 
             writeToLog("\"" + taskField.Text + "\" was added to the list");
         }
@@ -318,35 +325,45 @@ namespace Tasks_Tracker_App
         }
 
         //Replaces selected task with fields' data
-        public void updateTaskInList()
+        public void updateTaskInList(int index = -1, bool withTimeInfo = false)
         {
-            insertTaskInList();
-            deleteTaskInList();
+            if (index == -1)
+                saveTaskToList(stopWatchLabel.Content.ToString());
+            else
+            {
+                insertTaskInList(index, withTimeInfo);
+                deleteTaskInList();
+            }
         }
 
         //Inserts task to current location in the table
-        public void insertTaskInList()
+        public void insertTaskInList(int index = -1, bool withTimeInfo = false)
         {
+            string timeContent = "-";
+
             try
             {
-                if (tasksTable.SelectedItem != null)
+                if (index != -1)
+                    tasksTable.SelectedIndex = index;
+                if (withTimeInfo)
+                    timeContent = stopWatchLabel.Content.ToString();
+
+                if (tasksTable.SelectedItem != null && tasksTable.SelectedItem is Task)
                 {
-                    if (tasksTable.SelectedItem is Task)
-                    {
-                        var selection = (Task)tasksTable.SelectedItem;
+                    var selection = (Task)tasksTable.SelectedItem;
 
-                        notEmptyTaskTitle();
-                        selection.Title = taskField.Text;
-                        selection.Ticket = ticketField.Text;
-                        selection.Type = typeBox.Text;
-                        selection.Resolved = resolvedCheckBox.IsChecked.Value;
+                    notEmptyTaskTitle();
+                    selection.Title = taskField.Text;
+                    selection.Ticket = ticketField.Text;
+                    selection.Type = typeBox.Text;
+                    selection.Resolved = resolvedCheckBox.IsChecked.Value;
+                    selection.TimeWorked = timeContent;
 
-                        tasksTable.Items.Insert(tasksTable.SelectedIndex, selection);
+                    tasksTable.Items.Insert(tasksTable.SelectedIndex, selection);
 
-                        tasksTable.SelectedIndex -= 1;
-                        ifIsBilled(true);
-                        tasksTable.SelectedIndex += 1;
-                    }
+                    tasksTable.SelectedIndex -= 1;
+                    ifIsBilled(true);
+                    tasksTable.SelectedIndex += 1;
                 }
             }
             catch (Exception)
@@ -476,6 +493,27 @@ namespace Tasks_Tracker_App
                 + notBilledTextBox.Text);
             reportScreen.Show();
             reportScreen.Topmost = true;
+        }
+
+        //checks if the Task is being saved to the table and returns its index or -1 value
+        public int ifSavedInTheTable(string title)
+        {
+            for (int i = 0; i < tasksTable.Items.Count; i++)
+            {
+                tasksTable.SelectedIndex = i;
+
+                var selection = (Task)tasksTable.SelectedItem;
+
+                if (proFunctionCheckBox.IsChecked.Value
+                    && selection.Title == title
+                    && (selection.TimeWorked == "-" || selection.TimeWorked == "00:00:00"))
+                {
+
+                    return tasksTable.SelectedIndex; //THE PROBLEM IS HERE
+                }
+            }
+            //else:
+            return -1;
         }
 
         
